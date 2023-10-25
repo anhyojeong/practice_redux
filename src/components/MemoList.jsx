@@ -1,21 +1,37 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux'; // 리덕스 스토어랑 연결
-import { addMemo, deleteMemo } from '../actions'; // 액션 생성자 함수 가져오기
+import React, { useState } from "react";
+import { connect } from "react-redux"; // 리덕스 스토어랑 연결
+import { addMemo, deleteMemo } from "../actions"; // 액션 생성자 함수 가져오기
+import styled from "styled-components";
+
+const MemoListContainer = styled.div`
+  width: 300px;
+  margin: 0 auto;
+`;
+
+const MemoItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ccc;
+  margin: 5px 0;
+  padding: 5px;
+`;
 
 const MemoList = ({ memos, addMemo, deleteMemo }) => {
-  const [newMemo, setNewMemo] = useState(''); // 입력받는 메모 state
+  const [newMemo, setNewMemo] = useState(""); // 입력받는 메모 state
 
-  // 메모 추가하기 
-  const handleAddMemo = () => { 
-    addMemo({ // 액션 addMemo 디스패치
+  // 메모 추가하기
+  const handleAddMemo = () => {
+    addMemo({
+      // 액션 addMemo 디스패치
       id: Date.now(), // 메모 id 부여
-      text: newMemo, // 입력한 메모 내용 
+      text: newMemo, // 입력한 메모 내용
     });
-    setNewMemo(''); // 입력칸 초기화
+    setNewMemo(""); // 입력칸 초기화
   };
 
   return (
-    <div>
+    <MemoListContainer>
       <h2>메모</h2>
       <input
         type="text"
@@ -26,13 +42,13 @@ const MemoList = ({ memos, addMemo, deleteMemo }) => {
       <button onClick={handleAddMemo}>추가</button>
       <div>
         {memos.map((memo) => (
-          <div key={memo.id}>
+          <MemoItem key={memo.id}>
             {memo.text}
             <button onClick={() => deleteMemo(memo.id)}>삭제</button>
-          </div>
+          </MemoItem>
         ))}
       </div>
-    </div>
+    </MemoListContainer>
   );
 };
 
